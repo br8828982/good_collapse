@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toggle Menu</title>
+  <style>
+    .button {
+      display: block;
+    }
+    .content {
+      display: none;
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      transition: all .3s ease-out;
+    }
+
+    .open {
+      overflow: visible;
+      display: block;
+      opacity: 1;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <button class="button" data-target="content1">Toggle Content 1</button>
+  <div id="content1" class="content">
+    <p>This is a content.</p>
+    <button class="button" data-target="content2">Toggle Content 2</button>
+    <div id="content2" class="content">
+      <p>This is a content.</p>
+    </div>
+  </div>
+
+  <script>
+    const collapse = (element, open) => {
+      const removeStyle = () => element.removeAttribute('style');
+
+      element.style.overflow = "hidden";
+      element.style.display = "block";
+      element.style.height = element.scrollHeight + 'px';
+
+      setTimeout(() => element.style.height = !open && 0);
+
+      element.addEventListener('transitionend', removeStyle);
+
+      element.classList.toggle('open', open);
+    };
+
+    const handlerClick = (event) => {
+      const button = event.target.closest(".button");
+
+      if (!button) return;
+
+      const atr = button.getAttribute("data-target");
+      const element = document.getElementById(atr);
+
+      if (!element) return;
+
+      const isOpen = element.classList.contains("open");
+
+      collapse(element, !isOpen);
+    }
+
+    document.body.addEventListener("click", handlerClick);
+  </script>
+
+</body>
+
+</html>
