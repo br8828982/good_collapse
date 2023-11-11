@@ -9,6 +9,7 @@
     .button {
       display: block;
     }
+    
     .content {
       display: none;
       height: 0;
@@ -27,14 +28,17 @@
 </head>
 
 <body>
-
   <button class="button" data-target="content1">Toggle Content 1</button>
   <div id="content1" class="content">
     <p>This is a content.</p>
-    <button class="button" data-target="content2">Toggle Content 2</button>
-    <div id="content2" class="content">
+    <button class="button" data-target="content1-1">Toggle Content 1.1</button>
+    <div id="content1-1" class="content">
       <p>This is a content.</p>
     </div>
+  </div>
+  <button class="button" data-target="content2">Toggle Content 2</button>
+  <div id="content2" class="content">
+    <p>This is a content.</p>
   </div>
 
   <script>
@@ -52,7 +56,7 @@
       element.classList.toggle('open', open);
     };
 
-    const handlerClick = (event) => {
+    const handleClick = (event) => {
       const button = event.target.closest(".button");
 
       if (!button) return;
@@ -63,11 +67,15 @@
       if (!element) return;
 
       const isOpen = element.classList.contains("open");
+      const parent = button.closest(".content");
+      const activeElements = (parent || document).querySelectorAll('.content.open');
+
+      activeElements.forEach((el) => collapse(el, false));
 
       collapse(element, !isOpen);
-    }
+    };
 
-    document.body.addEventListener("click", handlerClick);
+    document.body.addEventListener("click", handleClick);
   </script>
 
 </body>
